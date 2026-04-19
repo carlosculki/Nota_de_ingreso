@@ -2,109 +2,126 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Bitácora de Entrega de Turno - Neo HSVP</title>
+    <title>Bitácora de Turno - Neo HSVP</title>
     <style>
-        body { font-family: Arial, sans-serif; font-size: 12px; background: #f0f2f5; }
-        .paciente-card { 
-            background: white; 
-            border: 2px solid #2c3e50; 
-            margin-bottom: 20px; 
-            padding: 15px;
-            border-radius: 8px;
+        :root { --primary: #004d40; --secondary: #00897b; --bg: #e0f2f1; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 10px; font-size: 11px; }
+        .paciente-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .header-card { grid-column: 1 / span 3; background: #2c3e50; color: white; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; }
-        .col { display: flex; flex-direction: column; gap: 5px; }
-        label { font-weight: bold; color: #34495e; font-size: 10px; text-transform: uppercase; }
-        input, textarea { padding: 5px; border: 1px solid #bdc3c7; border-radius: 3px; }
-        .alerta { background: #ffebee; border: 1px solid #ef5350; }
-        .resumen-vig { font-weight: bold; color: #2980b9; background: #e1f5fe; padding: 5px; border-radius: 3px; text-align: center; }
-        @media print { .no-print { display: none; } body { background: white; } .paciente-card { border: 1px solid #000; page-break-inside: avoid; } }
+        .header-box { grid-column: 1 / span 3; display: flex; justify-content: space-between; background: var(--primary); color: white; padding: 5px 10px; border-radius: 4px; }
+        .section-title { font-weight: bold; color: var(--primary); border-bottom: 1px solid #ddd; margin-bottom: 5px; font-size: 10px; }
+        .field { margin-bottom: 5px; display: flex; flex-direction: column; }
+        input, textarea { border: 1px solid #999; border-radius: 3px; padding: 3px; font-size: 11px; }
+        .math-box { background: #f1f8e9; border: 1px solid #c5e1a5; padding: 5px; border-radius: 4px; }
+        .alert { background: #ffebee; border: 1px solid #ef5350; }
+        @media print { .no-print { display: none; } .paciente-grid { break-inside: avoid; border: 1px solid black; } }
     </style>
 </head>
 <body>
 
-<div class="no-print" style="padding: 20px; text-align: center;">
-    <h1>ENTREGA DE TURNO - NEONATOLOGÍA</h1>
-    <button onclick="addPaciente()" style="padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer;">+ AGREGAR PACIENTE</button>
+<h2 class="no-print" style="text-align: center;">REGISTRO DE ENTREGA - NEONATOLOGÍA</h2>
+<div class="no-print" style="text-align: center; margin-bottom: 20px;">
+    <button onclick="nuevoPaciente()" style="padding: 10px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer;">+ AGREGAR PACIENTE AL TURNO</button>
 </div>
 
-<div id="contenedor-pacientes">
-    </div>
+<div id="lista-pacientes"></div>
 
 <script>
-    function addPaciente() {
-        const id = Date.now();
-        const html = `
-        <div class="paciente-card" id="p-${id}">
-            <div class="header-card">
-                <span>SECTOR: <input type="text" placeholder="Cuna/Termo" style="width:60px"></span>
-                <span>NOMBRE: <input type="text" placeholder="Apellidos Nombres" style="width:200px"></span>
-                <span>HCL: <input type="text" style="width:80px"></span>
-            </div>
-            
-            <div class="col">
-                <label>Diagnóstico Primario</label>
-                <textarea rows="2"></textarea>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
-                    <div><label>Edad/DH</label><input type="text" style="width:90%"></div>
-                    <div><label>EGC</label><input type="text" style="width:90%"></div>
-                </div>
-                <label>Antropometría (g)</label>
-                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:2px;">
-                    <input type="number" placeholder="P. Inic" id="pi-${id}">
-                    <input type="number" placeholder="P. Hoy" id="ph-${id}" oninput="calcVariacion(${id})">
-                    <div id="var-${id}" style="font-size:9px; align-self:center;"></div>
-                </div>
-            </div>
+function nuevoPaciente() {
+    const id = Date.now();
+    const template = `
+    <div class="paciente-grid" id="card-${id}">
+        <div class="header-box">
+            <span>SECTOR: <input type="text" style="width:60px"></span>
+            <span>NOMBRE: <input type="text" style="width:200px"></span>
+            <span>HCL: <input type="text" style="width:70px"></span>
+        </div>
 
-            <div class="col">
-                <label>Metabólico / Hídrico</label>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
-                    <div><label>Glicemia</label><input type="number" oninput="checkGlic(this)"></div>
-                    <div><label>Diuresis</label><input type="text"></div>
-                </div>
-                <div class="resumen-vig" id="vig-res-${id}">VIG: -- | LT: --</div>
-                <label>Alimentación / Hidratación</label>
-                <textarea rows="2" placeholder="Tipo de leche / Solución IV"></textarea>
+        <div>
+            <div class="section-title">DATOS CLÍNICOS</div>
+            <div class="field"><label>DIAGNÓSTICO:</label><textarea rows="2"></textarea></div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                <div class="field"><label>EDAD/DH:</label><input type="text"></div>
+                <div class="field"><label>EGC:</label><input type="text"></div>
             </div>
+            <div class="section-title">PESO (g)</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:2px;">
+                <div class="field"><label>INIC.</label><input type="number" id="pi-${id}"></div>
+                <div class="field"><label>HOY</label><input type="number" id="ph-${id}" oninput="calcP(${id})"></div>
+                <div class="field"><label>MAÑ.</label><input type="number"></div>
+            </div>
+            <div id="p-res-${id}" style="font-weight:bold; font-size:10px; text-align:center;"></div>
+        </div>
 
-            <div class="col">
-                <label>Plan Terapéutico</label>
-                <input type="text" placeholder="Antibiótico (Día X/Y)">
-                <input type="text" placeholder="O2 / Ventilación">
-                <input type="text" placeholder="Fototerapia / Otros">
-                <label style="color:red;">Pendientes Críticos</label>
-                <textarea rows="2" style="border-color: red;"></textarea>
+        <div class="math-box">
+            <div class="section-title">METABÓLICO / LÍQUIDOS</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                <div class="field"><label>GLICEMIA:</label><input type="number" oninput="checkG(this)"></div>
+                <div class="field"><label>DIURESIS:</label><input type="text"></div>
             </div>
+            <hr>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                <div class="field"><label>VOL. IV (ml/h):</label><input type="number" id="mlh-${id}" oninput="calcVIG(${id})"></div>
+                <div class="field"><label>% DEXTR:</label><input type="number" id="dex-${id}" value="10" oninput="calcVIG(${id})"></div>
+            </div>
+            <div id="vig-res-${id}" style="color:#1b5e20; font-weight:bold; margin-top:5px;">
+                LT: -- ml/kg/d <br> VIG: -- mg/kg/min
+            </div>
+            <div class="field"><label>BH / Kcal:</label><input type="text"></div>
+        </div>
 
-            <div class="no-print" style="grid-column: 1 / span 3; text-align: right;">
-                <button onclick="document.getElementById('p-${id}').remove()" style="color:red; background:none; border:none; cursor:pointer;">Eliminar de lista</button>
+        <div>
+            <div class="section-title">TERAPÉUTICO</div>
+            <div class="field"><label>ALIMENTACIÓN:</label><input type="text"></div>
+            <div class="field"><label>ANTIBIÓTICO (Día X/Y):</label><input type="text"></div>
+            <div class="field"><label>O2 / VENTILACIÓN:</label><input type="text"></div>
+            <div class="section-title" style="color:red;">PENDIENTES / LABORATORIO</div>
+            <textarea rows="3" style="border: 1px solid red; width: 95%;"></textarea>
+            <div class="no-print" style="text-align:right; margin-top:5px;">
+                <button onclick="document.getElementById('card-${id}').remove()" style="color:red; border:none; background:none; cursor:pointer;">Eliminar ✖</button>
             </div>
-        </div>`;
-        document.getElementById('contenedor-pacientes').insertAdjacentHTML('beforeend', html);
+        </div>
+    </div>`;
+    document.getElementById('lista-pacientes').insertAdjacentHTML('beforeend', template);
+}
+
+function calcP(id) {
+    const pi = parseFloat(document.getElementById(`pi-${id}`).value);
+    const ph = parseFloat(document.getElementById(`ph-${id}`).value);
+    if(pi && ph) {
+        const diff = (((ph - pi) / pi) * 100).toFixed(1);
+        document.getElementById(`p-res-${id}`).innerText = `Variación: ${diff}%`;
+        document.getElementById(`p-res-${id}`).style.color = diff < -10 ? 'red' : 'green';
     }
+}
 
-    function calcVariacion(id) {
-        const pi = parseFloat(document.getElementById(`pi-${id}`).value);
-        const ph = parseFloat(document.getElementById(`ph-${id}`).value);
-        if(pi && ph) {
-            const varP = ((ph - pi) / pi * 100).toFixed(1);
-            const el = document.getElementById(`var-${id}`);
-            el.innerText = `Δ: ${varP}%`;
-            el.style.color = varP < -10 ? 'red' : 'green';
-        }
+function calcVIG(id) {
+    const ph = parseFloat(document.getElementById(`ph-${id}`).value) || 0;
+    const mlh = parseFloat(document.getElementById(`mlh-${id}`).value) || 0;
+    const dex = parseFloat(document.getElementById(`dex-${id}`).value) || 0;
+    
+    if(ph > 0) {
+        const lt = (mlh * 24) / (ph / 1000);
+        const vig = (mlh * dex) / (ph / 1000 * 6);
+        document.getElementById(`vig-res-${id}`).innerHTML = `LT: ${lt.toFixed(1)} ml/kg/d <br> VIG: ${vig.toFixed(2)} mg/kg/min`;
     }
+}
 
-    function checkGlic(el) {
-        const val = parseFloat(el.value);
-        if(val < 45 || val > 150) el.classList.add('alerta');
-        else el.classList.remove('alerta');
-    }
+function checkG(el) {
+    const v = parseFloat(el.value);
+    if(v < 45 || v > 150) el.className = 'alert'; else el.className = '';
+}
 </script>
-
 </body>
 </html>
+
 
