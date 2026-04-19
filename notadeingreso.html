@@ -1,141 +1,110 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.65">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-    span.s1 {font: 12.0px 'Apple Color Emoji'}
-  </style>
+    <meta charset="UTF-8">
+    <title>Bitácora de Entrega de Turno - Neo HSVP</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; background: #f0f2f5; }
+        .paciente-card { 
+            background: white; 
+            border: 2px solid #2c3e50; 
+            margin-bottom: 20px; 
+            padding: 15px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .header-card { grid-column: 1 / span 3; background: #2c3e50; color: white; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; }
+        .col { display: flex; flex-direction: column; gap: 5px; }
+        label { font-weight: bold; color: #34495e; font-size: 10px; text-transform: uppercase; }
+        input, textarea { padding: 5px; border: 1px solid #bdc3c7; border-radius: 3px; }
+        .alerta { background: #ffebee; border: 1px solid #ef5350; }
+        .resumen-vig { font-weight: bold; color: #2980b9; background: #e1f5fe; padding: 5px; border-radius: 3px; text-align: center; }
+        @media print { .no-print { display: none; } body { background: white; } .paciente-card { border: 1px solid #000; page-break-inside: avoid; } }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="es"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;NeoLog Pro V7 - Word Export&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.input-group { @apply mb-6 p-4 bg-white rounded-2xl shadow-sm border border-gray-200; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>label { @apply block text-[10px] font-black text-blue-900 mb-1 uppercase tracking-wider; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>input, select, textarea { @apply w-full p-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm mt-1; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.indicacion-label { @apply font-bold text-blue-600 mr-2 min-w-[20px] inline-block; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body class="bg-slate-100 pb-40 font-sans text-gray-800"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;nav class="bg-blue-900 text-white p-4 sticky top-0 z-50 shadow-lg"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1 class="text-center text-sm font-bold tracking-widest"&gt;<span class="s1">🏥</span> HISTORIA CLÍNICA NEONATAL&lt;/h1&gt;</p>
-<p class="p1">&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="max-w-2xl mx-auto p-4"&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="input-group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-blue-800 font-black mb-3 text-xs border-b pb-1"&gt;<span class="s1">👤</span> IDENTIFICACIÓN&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="nombre" placeholder="Nombre del Neonato"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="id" placeholder="Cédula / Historia Clínica" class="mt-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="input-group grid grid-cols-2 gap-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label&gt;Capurro (EG)&lt;/label&gt;&lt;input type="text" id="capurro" placeholder="Semanas"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;label&gt;Apgar&lt;/label&gt;&lt;input type="text" id="apgar" placeholder="1'/5'"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="input-group border-green-200 bg-green-50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="text-green-800 font-black mb-3 text-xs border-b border-green-200 pb-1"&gt;<span class="s1">📝</span> INDICACIONES (AADCAVANDIMELCO)&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="space-y-3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;A&lt;/span&gt; Admisión/Alimentación&lt;/label&gt;&lt;input type="text" id="ind_a" value="Admisión a UCIN / Ayuno"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;A&lt;/span&gt; Actividad&lt;/label&gt;&lt;input type="text" id="ind_a2" value="Reposo en termocuna"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;D&lt;/span&gt; Dieta&lt;/label&gt;&lt;input type="text" id="ind_d" value="Leche materna por sonda si tolera"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;C&lt;/span&gt; Cuidados de Enfermería&lt;/label&gt;&lt;input type="text" id="ind_c" value="CSV cada 2 horas, control de diuresis"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;A&lt;/span&gt; Alergias&lt;/label&gt;&lt;input type="text" id="ind_al" value="No conocidas"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;V&lt;/span&gt; Vitales&lt;/label&gt;&lt;input type="text" id="ind_v" value="Monitorización continua de SatO2 y FC"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;A&lt;/span&gt; Antropometría&lt;/label&gt;&lt;input type="text" id="ind_an" value="Peso diario"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;N&lt;/span&gt; Notificar&lt;/label&gt;&lt;input type="text" id="ind_n" value="Cambios en patrón respiratorio"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;D&lt;/span&gt; Diagnóstico&lt;/label&gt;&lt;textarea id="ind_di"&gt;Sepsis neonatal temprana a descartar&lt;/textarea&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;I&lt;/span&gt; Interconsultas&lt;/label&gt;&lt;input type="text" id="ind_i" value="Cardiología pediátrica"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;M&lt;/span&gt; Medicamentos&lt;/label&gt;&lt;textarea id="ind_m"&gt;Ampicilina + Amikacina (dosis según peso)&lt;/textarea&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;E&lt;/span&gt; Exámenes&lt;/label&gt;&lt;textarea id="ind_e"&gt;BH, PCR, Hemocultivo, Rx Tórax&lt;/textarea&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;L&lt;/span&gt; Líquidos&lt;/label&gt;&lt;input type="text" id="ind_l" value="Dextrosa 10% TIG 6 mg/kg/min"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;C&lt;/span&gt; Consultas/Citas&lt;/label&gt;&lt;input type="text" id="ind_co" value="Pendiente"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div&gt;&lt;label&gt;&lt;span class="indicacion-label"&gt;O&lt;/span&gt; Observaciones&lt;/label&gt;&lt;input type="text" id="ind_o" value="Vigilar tolerancia gástrica"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t flex flex-col gap-2 shadow-2xl z-50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="copiarWhatsApp()" class="w-full bg-green-600 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span><span class="s1">📱</span> COPIAR PARA WHATSAPP</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button onclick="exportarWord()" class="w-full bg-blue-800 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span><span class="s1">📄</span> DESCARGAR PARA WORD (.doc)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function obtenerTextoBase() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const v = (id) =&gt; document.getElementById(id).value;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const fecha = new Date().toLocaleDateString();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>return `</p>
-<p class="p1">HISTORIA CLÍNICA Y PLAN DE MANEJO</p>
-<p class="p1">Fecha: ${fecha}</p>
-<p class="p1">Paciente: ${v('nombre')}</p>
-<p class="p1">ID: ${v('id')}</p>
-<p class="p2"><br></p>
-<p class="p1">VALORACIÓN INICIAL:</p>
-<p class="p1">- Capurro: ${v('capurro')}</p>
-<p class="p1">- Apgar: ${v('apgar')}</p>
-<p class="p2"><br></p>
-<p class="p1">INDICACIONES (AADCAVANDIMELCO):</p>
-<p class="p1">A: ${v('ind_a')}</p>
-<p class="p1">A: ${v('ind_a2')}</p>
-<p class="p1">D: ${v('ind_d')}</p>
-<p class="p1">C: ${v('ind_c')}</p>
-<p class="p1">A: ${v('ind_al')}</p>
-<p class="p1">V: ${v('ind_v')}</p>
-<p class="p1">A: ${v('ind_an')}</p>
-<p class="p1">N: ${v('ind_n')}</p>
-<p class="p1">D: ${v('ind_di')}</p>
-<p class="p1">I: ${v('ind_i')}</p>
-<p class="p1">M: ${v('ind_m')}</p>
-<p class="p1">E: ${v('ind_e')}</p>
-<p class="p1">L: ${v('ind_l')}</p>
-<p class="p1">C: ${v('ind_co')}</p>
-<p class="p1">O: ${v('ind_o')}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function copiarWhatsApp() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>navigator.clipboard.writeText(obtenerTextoBase()).then(() =&gt; alert("<span class="s1">✅</span> Copiado para WhatsApp"));</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function exportarWord() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const texto = obtenerTextoBase().replace(/\n/g, '&lt;br&gt;');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const contenidoHTML = `</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;head&gt;&lt;meta charset='utf-8'&gt;&lt;title&gt;Historia Clinica&lt;/title&gt;&lt;/head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;body style="font-family: Arial; font-size: 12pt;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 style="text-align: center; color: blue;"&gt;NOTA DE INGRESO NEONATAL&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>${texto}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/html&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const blob = new Blob(['\ufeff', contenidoHTML], { type: 'application/msword' });</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const url = URL.createObjectURL(blob);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const link = document.createElement('a');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>link.href = url;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>link.download = "Historia_Clinica_Neo.doc";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>link.click();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<div class="no-print" style="padding: 20px; text-align: center;">
+    <h1>ENTREGA DE TURNO - NEONATOLOGÍA</h1>
+    <button onclick="addPaciente()" style="padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer;">+ AGREGAR PACIENTE</button>
+</div>
+
+<div id="contenedor-pacientes">
+    </div>
+
+<script>
+    function addPaciente() {
+        const id = Date.now();
+        const html = `
+        <div class="paciente-card" id="p-${id}">
+            <div class="header-card">
+                <span>SECTOR: <input type="text" placeholder="Cuna/Termo" style="width:60px"></span>
+                <span>NOMBRE: <input type="text" placeholder="Apellidos Nombres" style="width:200px"></span>
+                <span>HCL: <input type="text" style="width:80px"></span>
+            </div>
+            
+            <div class="col">
+                <label>Diagnóstico Primario</label>
+                <textarea rows="2"></textarea>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                    <div><label>Edad/DH</label><input type="text" style="width:90%"></div>
+                    <div><label>EGC</label><input type="text" style="width:90%"></div>
+                </div>
+                <label>Antropometría (g)</label>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:2px;">
+                    <input type="number" placeholder="P. Inic" id="pi-${id}">
+                    <input type="number" placeholder="P. Hoy" id="ph-${id}" oninput="calcVariacion(${id})">
+                    <div id="var-${id}" style="font-size:9px; align-self:center;"></div>
+                </div>
+            </div>
+
+            <div class="col">
+                <label>Metabólico / Hídrico</label>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                    <div><label>Glicemia</label><input type="number" oninput="checkGlic(this)"></div>
+                    <div><label>Diuresis</label><input type="text"></div>
+                </div>
+                <div class="resumen-vig" id="vig-res-${id}">VIG: -- | LT: --</div>
+                <label>Alimentación / Hidratación</label>
+                <textarea rows="2" placeholder="Tipo de leche / Solución IV"></textarea>
+            </div>
+
+            <div class="col">
+                <label>Plan Terapéutico</label>
+                <input type="text" placeholder="Antibiótico (Día X/Y)">
+                <input type="text" placeholder="O2 / Ventilación">
+                <input type="text" placeholder="Fototerapia / Otros">
+                <label style="color:red;">Pendientes Críticos</label>
+                <textarea rows="2" style="border-color: red;"></textarea>
+            </div>
+
+            <div class="no-print" style="grid-column: 1 / span 3; text-align: right;">
+                <button onclick="document.getElementById('p-${id}').remove()" style="color:red; background:none; border:none; cursor:pointer;">Eliminar de lista</button>
+            </div>
+        </div>`;
+        document.getElementById('contenedor-pacientes').insertAdjacentHTML('beforeend', html);
+    }
+
+    function calcVariacion(id) {
+        const pi = parseFloat(document.getElementById(`pi-${id}`).value);
+        const ph = parseFloat(document.getElementById(`ph-${id}`).value);
+        if(pi && ph) {
+            const varP = ((ph - pi) / pi * 100).toFixed(1);
+            const el = document.getElementById(`var-${id}`);
+            el.innerText = `Δ: ${varP}%`;
+            el.style.color = varP < -10 ? 'red' : 'green';
+        }
+    }
+
+    function checkGlic(el) {
+        const val = parseFloat(el.value);
+        if(val < 45 || val > 150) el.classList.add('alerta');
+        else el.classList.remove('alerta');
+    }
+</script>
+
 </body>
 </html>
+
